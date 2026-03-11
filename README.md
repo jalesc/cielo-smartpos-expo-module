@@ -17,6 +17,7 @@ import {
   doAsyncPrintText,
   doAsyncPrintBitmap,
   getSerialNumber,
+  doAsyncGetTerminalInfo,
   CieloSmartposExpoModule,
 } from "cielo-smartpos-expo-module";
 ```
@@ -95,6 +96,14 @@ import {
         <category android:name="android.intent.category.BROWSABLE" />
         <data android:host="print" android:scheme="@string/schema_return" />
       </intent-filter>
+
+      <!-- Callback: terminal info -->
+      <intent-filter>
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+        <data android:host="terminalinfo" android:scheme="@string/schema_return" />
+      </intent-filter>
     </activity>
   </application>
 </manifest>
@@ -115,6 +124,7 @@ import {
   <string name="callback_payment">payment</string>
   <string name="callback_payment_reversal">payment-reversal</string>
   <string name="callback_print">print</string>
+  <string name="callback_terminal_info">terminalinfo</string>
 </resources>
 ```
 
@@ -167,6 +177,9 @@ Starts a text print
 
 **doAsyncPrintBitmap:**
 Starts a image print
+
+**doAsyncGetTerminalInfo:**
+Fetches terminal info (battery level, device model, IMEI, logic number, merchant code, serial number).
 
 **getSerialNumber:**
 Returns the SmartPOS device serial number.
