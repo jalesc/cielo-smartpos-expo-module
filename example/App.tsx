@@ -4,13 +4,15 @@ import doAsyncPayment from './CieloModule/doAsyncPayment';
 import doAsyncVoidPayment from './CieloModule/doAsyncVoidPayment';
 import doAsyncPrintText from './CieloModule/doAsyncPrintText';
 import doAsyncPrintBitmap from './CieloModule/doAsyncPrintBitmap';
+import doAsyncGetTerminalInfo from './CieloModule/doAsyncGetTerminalInfo';
 import { getSerialNumber as getSerial } from './CieloModule/getSerialnumber';
-import { PaymentResponse, PaymentCode, OperationPrintType } from 'cielo-smartpos-expo-module';
+import { PaymentResponse, PaymentCode, OperationPrintType, TerminalInfo } from 'cielo-smartpos-expo-module';
 import * as MediaLibrary from 'expo-media-library';
 
 export default function App() {
 
   const [lastSale, setLastSale] = React.useState<PaymentResponse | null>(null);
+  const [terminalInfo, setTerminalInfo] = React.useState<TerminalInfo | null>(null);
 
   const [, requestPermission] = MediaLibrary.usePermissions();
 
@@ -125,6 +127,22 @@ export default function App() {
     return serial;
   }
 
+  async function handleGetTerminalInfo() {
+    try {
+      const response = await doAsyncGetTerminalInfo();
+      if (!response.success) {
+        console.log('Terminal info error: ', response.result);
+        return;
+      }
+
+      const parsed: TerminalInfo = JSON.parse(response.result);
+      setTerminalInfo(parsed);
+      console.log('Terminal info: ', parsed);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <View style={styles.container}>
       <ScrollView style={styles.container}>
@@ -150,11 +168,22 @@ export default function App() {
             title="SERIAL DO TERMINAL"
             onPress={getSerialNumber}
           />
+          <Button
+            title="INFO DO TERMINAL"
+            onPress={handleGetTerminalInfo}
+          />
         </Group>
         {
           lastSale && (
             <Group name="RESULTADO">
               <Text>{JSON.stringify(lastSale)}</Text>
+            </Group>
+          )
+        }
+        {
+          terminalInfo && (
+            <Group name="TERMINAL INFO">
+              <Text>{JSON.stringify(terminalInfo)}</Text>
             </Group>
           )
         }

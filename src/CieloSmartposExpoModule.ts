@@ -7,6 +7,7 @@ declare class CieloSmartposExpoModule extends NativeModule {
   doAsyncVoidPayment(json: string): Promise<CieloResponse>
   doAsyncPrintText(json: string): Promise<CieloResponse>
   doAsyncPrintBitmap(json: string): Promise<CieloResponse>
+  doAsyncGetTerminalInfo(): Promise<CieloResponse>
   getSerialNumber(): string;
 }
 

@@ -13,12 +13,13 @@ class CieloSmartposExpoModule : Module() {
 
     OnNewIntent { intent ->
       val data = intent?.data ?: return@OnNewIntent
-      val action = data.host // <- "payment", "payment-reversal" or "print"
+      val action = data.host // <- "payment", "payment-reversal", "print" or "terminalinfo"
 
       when (action) {
         "payment" -> PaymentHandler.handleResponseIntent(intent)
         "payment-reversal" -> CancelHandler.handleResponseIntent(intent)
         "print" -> PrintHandler.handleResponseIntent(intent)
+        "terminalinfo" -> TerminalInfoHandler.handleResponseIntent(intent)
       }
     }
 
@@ -56,6 +57,13 @@ class CieloSmartposExpoModule : Module() {
         ?: return@AsyncFunction promise.reject("5000", "Activity não encontrada", null)
 
       PrintHandler.startBitmapPrint(activity, json, promise)
+    }
+
+    AsyncFunction("doAsyncGetTerminalInfo") { promise: Promise ->
+      val activity = appContext.currentActivity
+        ?: return@AsyncFunction promise.reject("5000", "Activity não encontrada", null)
+
+      TerminalInfoHandler.startTerminalInfo(activity, promise)
     }
   }
 }

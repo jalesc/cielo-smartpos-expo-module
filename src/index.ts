@@ -36,6 +36,10 @@ export async function doAsyncPrintBitmap(
   return CieloSmartposExpoModule.doAsyncPrintBitmap(JSON.stringify(data));
 }
 
+export async function doAsyncGetTerminalInfo(): Promise<CieloResponse> {
+  return CieloSmartposExpoModule.doAsyncGetTerminalInfo();
+}
+
 export function getSerialNumber(): string {
   return CieloSmartposExpoModule.getSerialNumber();
 }

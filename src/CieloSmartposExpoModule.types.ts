@@ -98,3 +98,12 @@ export type PrintData = {
   styles: any
   value: string[]
 }
+
+export type TerminalInfo = {
+  batteryLevel: number
+  deviceModel: string
+  imeiNumber: string
+  logicNumber: string
+  merchantCode: string
+  serialNumber: string
+}

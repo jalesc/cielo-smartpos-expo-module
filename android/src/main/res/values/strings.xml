@@ -3,4 +3,5 @@
   <string name="callback_payment">payment</string>
   <string name="callback_payment_reversal">payment-reversal</string>
   <string name="callback_print">print</string>
+  <string name="callback_terminal_info">terminalinfo</string>
 </resources>
